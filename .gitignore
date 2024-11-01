@@ -1,2 +1,12 @@
 node_modules/
 .ruff_cache/
+
+# Python
+*.pyc
+__pycache__/
+venv/
+*.env
+
+# Flask
+instance/
+webex-g2g-python.egg-info/

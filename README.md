@@ -28,14 +28,15 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Set the environment variable `WEBEX_ACCESS_TOKEN` to the service app access token generated in the [Getting Started](#getting-started) section.
-2. Run the app:
+1. In the `.env.sample` file, set the environment variable `WEBEX_ACCESS_TOKEN` to the service app access token generated in the [Getting Started](#getting-started) section.
+2. Rename `.env.sample` file to `.env`.
+3. Run the app:
 
 ```bash
 flask run
 ```
 
-3. Open a browser and navigate to `http://localhost:5000/` to access the app.
-4. Create a new meeting by entering the meeting details and clicking the `Create Meeting` button.
-5. Create meeting join links for the meeting by entering a guest display name and clicking the `Create Join Link` button.
-6. Copy the join links and share it with each of the guests.
+4. Open a browser and navigate to `http://localhost:5000/` to access the app.
+5. Create a new meeting by entering the meeting details and clicking the `Create Meeting` button.
+6. Create meeting join links for the meeting by entering a guest display name and clicking the `Create Join Link` button.
+7. Copy the join links and share it with each of the guests.

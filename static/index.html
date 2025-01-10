@@ -34,7 +34,13 @@
                             <label for="end-time">End Time (ISO format):</label>
                             <input type="datetime-local" class="form-control" id="end-time" name="end-time" required placeholder="YYYY-MM-DDTHH:MM">
                         </div>
-                        
+                        <div class="form-group">
+                            <label for="join-before-host">Join Before Host:</label>
+                            <select class="form-control" id="join-before-host" name="join-before-host">
+                                <option value="True">Yes - Host Not Required to Start Meeting</option>
+                                <option value="False">No - Host Required to Start Meeting</option>
+                            </select>
+                        </div>
                         <input type="submit" class="btn btn-primary" value="Schedule Meeting">
                     </form>
                 </div>
@@ -110,13 +116,17 @@
                 const meetingTitle = document.getElementById('meeting-title').value;
                 const startTime = document.getElementById('start-time').value;
                 const endTime = document.getElementById('end-time').value;
+                let joinBeforeHost = document.getElementById('join-before-host').value;
+                // Convert joinBeforeHost to boolean
+                joinBeforeHost = joinBeforeHost === 'True';
                 // Example API call using fetch
                 fetch('/api/create-meeting', {
                     method: 'POST',
                     body: JSON.stringify({
                         title: meetingTitle,
                         start: startTime,
-                        end: endTime
+                        end: endTime,
+                        joinBeforeHost: joinBeforeHost
                     }),
                     headers: {
                         'Content-Type': 'application/json'

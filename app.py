@@ -31,10 +31,11 @@ def create_meeting():
     title = data.get('title')
     start = data.get('start')
     end = data.get('end')
+    join_before_host = data.get('joinBeforeHost')
 
     # Your code to create the meeting goes here
     try:
-        meeting = webex_api.create_meeting(title, start, end)
+        meeting = webex_api.create_meeting(title, start, end, join_before_host)
         return jsonify(meeting)
     except Exception as e:
         return jsonify({'error': str(e)})

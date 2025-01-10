@@ -55,7 +55,7 @@ class WebexAPI:
             print(response.json())
             raise Exception(f'Request failed with status code {response.status_code}')
         
-    def create_meeting(self, title, start, end):
+    def create_meeting(self, title, start, end, join_before_host=True):
         """
         Creates a new meeting with the specified title, start time, and end time.
 
@@ -75,10 +75,12 @@ class WebexAPI:
             "title": f"{title}",
             "start": start,
             "end": end,
-            "enabledJoinBeforeHost": True,
-            "joinBeforeHostMinutes": 15,
-            "unlockedMeetingJoinSecurity": "allowJoin"
+            "enabledJoinBeforeHost": join_before_host
         }
+        # Add join before host minutes and unlocked meeting join security if join before host is enabled
+        if join_before_host:
+            data["joinBeforeHostMinutes"] = 15 # Valid options for a meeting are 0, 5, 10, and 15
+            data["unlockedMeetingJoinSecurity"] = "allowJoin"
         try:
             response = self.make_request('POST', 'meetings', data=data)
             return response

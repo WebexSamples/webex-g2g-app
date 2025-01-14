@@ -1,217 +1,306 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title>Webex Guest to Guest Meeting Helper</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div class="container">
-            <h1>Webex Guest to Guest Meeting Helper</h1>
-            <p>This tool allows you to schedule a meeting and generate join links for each guest.</p>
-            <p>Fill out the form below to schedule a meeting, and then use the form to generate join links for each guest.</p>
-            <div class="row">
-                <div class="col">
-                    <h3>Meeting Creator</h3>
-                </div>
-                <div class="col">
-                    <h3>Meeting Outcome</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <form id="meeting-creator">
-                        <div class="form-group">
-                            <label for="meeting-title">Meeting Title:</label>
-                            <input type="text" class="form-control" id="meeting-title" name="meeting-title" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="start-time">Start Time (ISO format):</label>
-                            <input type="datetime-local" class="form-control" id="start-time" name="start-time" required placeholder="YYYY-MM-DDTHH:MM">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="end-time">End Time (ISO format):</label>
-                            <input type="datetime-local" class="form-control" id="end-time" name="end-time" required placeholder="YYYY-MM-DDTHH:MM">
-                        </div>
-                        <div class="form-group">
-                            <label for="join-before-host">Join Before Host:</label>
-                            <select class="form-control" id="join-before-host" name="join-before-host">
-                                <option value="True">Yes - Host Not Required to Start Meeting</option>
-                                <option value="False">No - Host Required to Start Meeting</option>
-                            </select>
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Schedule Meeting">
-                    </form>
-                </div>
-                <div class="col">
-                    <div style="background-color: gray; border-radius: 5px; height: 100%; padding: 5px;">
-                        <h3>Create Meeting Outcome</h3>
-                        <label for="meeting-id">Meeting ID:</label>
-                        <input type="text" class="form-control" id="meeting-id" name="meeting-id" readonly placeholder="Meeting ID">
-                        <input type="text" class="form-control" id="meeting-password" name="meeting-password" readonly placeholder="Meeting Password">
-                        <input type="text" class="form-control" id="create-meeting-details" name="create-meeting-details" readonly placeholder="Create Meeting Details">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h3>Meeting Join Links</h3>
-                    <p>Create meeting join links for each meeting guest.</p>
-                    <!-- Meeting Join Link Generator Form-->
-                    <form id="meeting-join-link-generator">
-                        <div class="form-group">
-                            <label for="guest-name">Guest Display Name:</label>
-                            <input type="text" class="form-control" id="guest-name" name="guest-name" required>
-                            <button type="submit" class="btn btn-primary" disabled>Create Link</button>
-                        </div>
-                    </form> 
-                </div>
-                <div class="col">
-                    <h3>Meeting Join Links</h3>
-                    <p>Join links for each guest will be displayed here.</p>
-                    <div id="meeting-join-links">
-                        <table>
-                            <tr>
-                                <th>Guest Name</th>
-                                <th>Start Link</th>
-                                <th>Join Link</th>
-                            </tr>
-                        </table>
-                    </div>
-            </div>        
+  <head>
+    <title>Webex Guest to Guest Meeting Helper</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Webex Guest to Guest Meeting Helper</h1>
+      <p>
+        This tool allows you to schedule a meeting and generate join links for
+        each guest.
+      </p>
+      <p>
+        Fill out the form below to schedule a meeting, and then use the form to
+        generate join links for each guest.
+      </p>
+      <div class="row">
+        <div class="col">
+          <h3>Meeting Creator</h3>
         </div>
+        <div class="col">
+          <h3>Meeting Outcome</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <form id="meeting-creator">
+            <div class="form-group">
+              <label for="meeting-title">Meeting Title:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="meeting-title"
+                name="meeting-title"
+                required
+              />
+            </div>
 
-        <script>
-            // Default time values for the start and end time inputs to 15 minutes from now and 75 minutes from now
-            const now = new Date();
-            const nowPlus24Hours = new Date(now.getTime() + 15 * 60 * 1000);
-            const nowPlus25Hours = new Date(now.getTime() + 75 * 60 * 1000);
-            document.getElementById('start-time').value = nowPlus24Hours.toISOString().slice(0, 16);
-            document.getElementById('end-time').value = nowPlus25Hours.toISOString().slice(0, 16);
+            <div class="form-group">
+              <label for="start-time">Start Time (ISO format):</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="start-time"
+                name="start-time"
+                required
+                placeholder="YYYY-MM-DDTHH:MM"
+              />
+            </div>
 
-        </script>
+            <div class="form-group">
+              <label for="end-time">End Time (ISO format):</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="end-time"
+                name="end-time"
+                required
+                placeholder="YYYY-MM-DDTHH:MM"
+              />
+            </div>
+            <div class="form-group">
+              <label for="join-before-host">Join Before Host:</label>
+              <select
+                class="form-control"
+                id="join-before-host"
+                name="join-before-host"
+              >
+                <option value="True">
+                  Yes - Host Not Required to Start Meeting
+                </option>
+                <option value="False">
+                  No - Host Required to Start Meeting
+                </option>
+              </select>
+            </div>
+            <input
+              type="submit"
+              class="btn btn-primary"
+              value="Schedule Meeting"
+            />
+          </form>
+        </div>
+        <div class="col">
+          <div
+            style="
+              background-color: gray;
+              border-radius: 5px;
+              height: 100%;
+              padding: 5px;
+            "
+          >
+            <h3>Create Meeting Outcome</h3>
+            <label for="meeting-id">Meeting ID:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="meeting-id"
+              name="meeting-id"
+              readonly
+              placeholder="Meeting ID"
+            />
+            <input
+              type="text"
+              class="form-control"
+              id="meeting-password"
+              name="meeting-password"
+              readonly
+              placeholder="Meeting Password"
+            />
+            <input
+              type="text"
+              class="form-control"
+              id="create-meeting-details"
+              name="create-meeting-details"
+              readonly
+              placeholder="Create Meeting Details"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Meeting Join Links</h3>
+          <p>Create meeting join links for each meeting guest.</p>
+          <!-- Meeting Join Link Generator Form-->
+          <form id="meeting-join-link-generator">
+            <div class="form-group">
+              <label for="guest-name">Guest Display Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="guest-name"
+                name="guest-name"
+                required
+              />
+              <button type="submit" class="btn btn-primary" disabled>
+                Create Link
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col">
+          <h3>Meeting Join Links</h3>
+          <p>Join links for each guest will be displayed here.</p>
+          <div id="meeting-join-links">
+            <table>
+              <tr>
+                <th>Guest Name</th>
+                <th>Start Link</th>
+                <th>Join Link</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <script>
-            // Add your JavaScript code here to handle the form submission and update the meeting outcome div
-            const meetingCreatorForm = document.getElementById('meeting-creator');
-            const meetingIdDiv = document.getElementById('meeting-id');
-            const meetingPasswordDiv = document.getElementById('meeting-password');
-            const createMeetingDetailsDiv = document.getElementById('create-meeting-details');
-            const submitButton = document.querySelector('#meeting-creator input[type="submit"]');
-            const joinLinkGeneratorForm = document.getElementById('meeting-join-link-generator');
-            const meetingJoinLinksDiv = document.getElementById('meeting-join-links');
-            const createLinkButton = document.querySelector('#meeting-join-link-generator button[type="submit"]');
+    <script>
+      // Default time values for the start and end time inputs to 15 minutes from now and 75 minutes from now
+      const now = new Date();
+      const nowPlus24Hours = new Date(now.getTime() + 15 * 60 * 1000);
+      const nowPlus25Hours = new Date(now.getTime() + 75 * 60 * 1000);
+      document.getElementById('start-time').value = nowPlus24Hours
+        .toISOString()
+        .slice(0, 16);
+      document.getElementById('end-time').value = nowPlus25Hours
+        .toISOString()
+        .slice(0, 16);
+    </script>
 
-            let meetingCreatedSuccessfully = false;
+    <script>
+      // Add your JavaScript code here to handle the form submission and update the meeting outcome div
+      const meetingCreatorForm = document.getElementById('meeting-creator');
+      const meetingIdDiv = document.getElementById('meeting-id');
+      const meetingPasswordDiv = document.getElementById('meeting-password');
+      const createMeetingDetailsDiv = document.getElementById(
+        'create-meeting-details',
+      );
+      const submitButton = document.querySelector(
+        '#meeting-creator input[type="submit"]',
+      );
+      const joinLinkGeneratorForm = document.getElementById(
+        'meeting-join-link-generator',
+      );
+      const meetingJoinLinksDiv = document.getElementById('meeting-join-links');
+      const createLinkButton = document.querySelector(
+        '#meeting-join-link-generator button[type="submit"]',
+      );
 
-            meetingCreatorForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                // Disable the form while processing
-                meetingCreatorForm.classList.add('disabled');
-                submitButton.disabled = true;
+      let meetingCreatedSuccessfully = false;
 
-                // Perform the API call to create the meeting
-                // Replace the following code with your actual API call
-                const meetingTitle = document.getElementById('meeting-title').value;
-                const startTime = document.getElementById('start-time').value;
-                const endTime = document.getElementById('end-time').value;
-                let joinBeforeHost = document.getElementById('join-before-host').value;
-                // Convert joinBeforeHost to boolean
-                joinBeforeHost = joinBeforeHost === 'True';
-                // Example API call using fetch
-                fetch('/api/create-meeting', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        title: meetingTitle,
-                        start: startTime,
-                        end: endTime,
-                        joinBeforeHost: joinBeforeHost
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        createMeetingDetailsDiv.value = data.error;
-                        console.error('An error occurred: ', data.error);
-                    } else {
-                        meetingCreatedSuccessfully = true;
-                        // Update the meeting outcome div with the API response
-                        console.log("Meeting Created: ", data);
-                        meetingIdDiv.value = data.id;
-                        meetingPasswordDiv.value = data.password;
-                        createMeetingDetailsDiv.value = "Meeting Created";
-                        // Enable the join link generator form
-                        createLinkButton.disabled = false;
-                    }
-                })
-                .catch(error => {
-                    // Handle any errors
-                    createMeetingDetailsDiv.value = 'An error occurred: ' + error;
-                })
-                .finally(() => {
-                    // Re-Enable the form if the meeting was not created successfully
-                    if (!meetingCreatedSuccessfully) {
-                        meetingCreatorForm.classList.remove('disabled');
-                        submitButton.disabled = false;
-                    }
-                });
-            });
-        
-            // Add your JavaScript code here to handle the form submission and update the meeting join links div
-            joinLinkGeneratorForm.addEventListener('submit', function(event) {
-                event.preventDefault();
+      meetingCreatorForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        // Disable the form while processing
+        meetingCreatorForm.classList.add('disabled');
+        submitButton.disabled = true;
 
-                // Disable the create link button while processing
-                createLinkButton.disabled = true;
-                joinLinkGeneratorForm.classList.add('disabled');
-                
-                // Perform the API call to generate the meeting join link
-                // Replace the following code with your actual API call
-                const guestName = document.getElementById('guest-name').value;
-                const meetingId = document.getElementById('meeting-id').value;
-                const meetingPassword = document.getElementById('meeting-password').value;
-                const table = document.querySelector('#meeting-join-links table');
+        // Perform the API call to create the meeting
+        // Replace the following code with your actual API call
+        const meetingTitle = document.getElementById('meeting-title').value;
+        const startTime = document.getElementById('start-time').value;
+        const endTime = document.getElementById('end-time').value;
+        let joinBeforeHost = document.getElementById('join-before-host').value;
+        // Convert joinBeforeHost to boolean
+        joinBeforeHost = joinBeforeHost === 'True';
+        // Example API call using fetch
+        fetch('/api/create-meeting', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: meetingTitle,
+            start: startTime,
+            end: endTime,
+            joinBeforeHost: joinBeforeHost,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              createMeetingDetailsDiv.value = data.error;
+              console.error('An error occurred: ', data.error);
+            } else {
+              meetingCreatedSuccessfully = true;
+              // Update the meeting outcome div with the API response
+              console.log('Meeting Created: ', data);
+              meetingIdDiv.value = data.id;
+              meetingPasswordDiv.value = data.password;
+              createMeetingDetailsDiv.value = 'Meeting Created';
+              // Enable the join link generator form
+              createLinkButton.disabled = false;
+            }
+          })
+          .catch((error) => {
+            // Handle any errors
+            createMeetingDetailsDiv.value = 'An error occurred: ' + error;
+          })
+          .finally(() => {
+            // Re-Enable the form if the meeting was not created successfully
+            if (!meetingCreatedSuccessfully) {
+              meetingCreatorForm.classList.remove('disabled');
+              submitButton.disabled = false;
+            }
+          });
+      });
 
-                // Example API call using fetch
-                fetch('/api/generate-join-link', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        displayName: guestName,
-                        meetingId: meetingId,
-                        email: 'test@test.com',
-                        password: meetingPassword
+      // Add your JavaScript code here to handle the form submission and update the meeting join links div
+      joinLinkGeneratorForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Join Link Created: ", data);
-                    // Update the meeting join links div with the API response
-                    const row = table.insertRow(-1);
-                    const cell1 = row.insertCell(0);
-                    const cell2 = row.insertCell(1);
-                    const cell3 = row.insertCell(2);
-                    cell1.textContent = guestName;
-                    cell2.innerHTML = `<a href="${data.startLink}" target="_blank">Start Meeting</a>`;
-                    cell3.innerHTML = `<a href="${data.joinLink}" target="_blank">Join Meeting</a>`;
-                })
-                .catch(error => {
-                    // Handle any errors
-                    console.error('An error occurred: ', error);
-                })
-                .finally(() => {
-                    // Enable the form after processing
-                    joinLinkGeneratorForm.classList.remove('disabled');
-                    createLinkButton.disabled = false;
-                });
-            });
-        </script>
-    </body>
+        // Disable the create link button while processing
+        createLinkButton.disabled = true;
+        joinLinkGeneratorForm.classList.add('disabled');
+
+        // Perform the API call to generate the meeting join link
+        // Replace the following code with your actual API call
+        const guestName = document.getElementById('guest-name').value;
+        const meetingId = document.getElementById('meeting-id').value;
+        const meetingPassword =
+          document.getElementById('meeting-password').value;
+        const table = document.querySelector('#meeting-join-links table');
+
+        // Example API call using fetch
+        fetch('/api/generate-join-link', {
+          method: 'POST',
+          body: JSON.stringify({
+            displayName: guestName,
+            meetingId: meetingId,
+            email: 'test@test.com',
+            password: meetingPassword,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Join Link Created: ', data);
+            // Update the meeting join links div with the API response
+            const row = table.insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            cell1.textContent = guestName;
+            cell2.innerHTML = `<a href="${data.startLink}" target="_blank">Start Meeting</a>`;
+            cell3.innerHTML = `<a href="${data.joinLink}" target="_blank">Join Meeting</a>`;
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.error('An error occurred: ', error);
+          })
+          .finally(() => {
+            // Enable the form after processing
+            joinLinkGeneratorForm.classList.remove('disabled');
+            createLinkButton.disabled = false;
+          });
+      });
+    </script>
+  </body>
 </html>

@@ -64,19 +64,23 @@
               />
             </div>
             <div class="form-group">
-              <label for="join-before-host">Join Before Host:</label>
+              <label for="join-before-host">Start Meeting On Join</label>
               <select
                 class="form-control"
                 id="join-before-host"
                 name="join-before-host"
               >
                 <option value="True">
-                  Yes - Host Not Required to Start Meeting
+                  Yes - Meeting Will Start When Guest Joins
                 </option>
                 <option value="False">
-                  No - Host Required to Start Meeting
+                  No - Start Meeting Manually
                 </option>
               </select>
+              <p><small><em>
+                Note: Control Hub configuration is required to allow immediate joins. 
+                Please refer to the <a href="https://developer.webex.com/docs/service-apps-as-g2g-meeting-facilitator-guide#meetings-without-a-host-role-joining" target="_blank">Webex Developer Documentation</a> for more information.
+              </em></small></p>
             </div>
             <input
               type="submit"
